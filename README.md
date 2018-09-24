@@ -20,6 +20,9 @@ transport, you can change its current log level by calling:
    dojotLogger.logger.transports[0].level = "info";
 ```
 
+You should definitely check out [winston
+documentation](https://github.com/winstonjs/winston) for more information about
+how to use it.
 
 You can add an endpoint to your component as well:
 
@@ -43,4 +46,10 @@ Thus you can call:
    curl -X PUT http://localhost:10001/log/config?level=debug
 
 ```
-to change current log level.
+to change current log level. Currently supported levels are:
+
+- debug
+- info
+- warn
+- error
+
