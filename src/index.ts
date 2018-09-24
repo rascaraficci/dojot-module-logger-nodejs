@@ -68,15 +68,32 @@ const logger = winston.createLogger({
     ],
 });
 
-/*Route to runtime debug change*/
+/**
+ * Adds two endpoints related to logging configuration.
+ * @param app The express application
+ */
 const addLoggerEndpoint = (app: express.Application) => {
     app.put("/log/config", (req: express.Request, res: express.Response) => {
-        if (req.query.level && (debugLevels.indexOf(req.query.level) >= 0)) {
-            res.set(200).send("Level of debugger is set to " + req.query.level);
-            logger.transports[0].level = req.query.level;
+        if (req.body.level !== undefined && req.body.level !== null) {
+            if (debugLevels.indexOf(req.body.level) >= 0) {
+                // Set log level
+                res.set(200).send("Level of debugger is set to " + req.body.level);
+                logger.transports[0].level = req.body.level;
+            } else {
+                res.status(400).send("unknown level: " + req.body.level + ", valid are " + debugLevels);
+            }
         } else {
             res.status(400).send("undefined level of debugger");
         }
+    });
+
+    // tslint:disable-next-line:variable-name
+    app.get("/log/config", (_req: express.Request, res: express.Response) => {
+        res.set(200).header({
+            "Content-Type": "application/json",
+        }).send(JSON.stringify({
+            level: logger.transports[0].level,
+        }));
     });
 };
 
