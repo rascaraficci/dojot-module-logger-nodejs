@@ -30,7 +30,7 @@ You can add an endpoint to your component as well:
    var express = require("express");
    var app = express();
    app.use(bodyParser.json());
-   dojotLogger.addLoggerEndpoint(app, "none");
+   dojotLogger.addLoggerEndpoint(app);
    app.listen(10001, () => {
        logger.info(`Listening on port 10001.`);
    });
