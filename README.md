@@ -43,7 +43,7 @@ Thus you can call:
 
 ```bash
 
-   curl -X PUT http://localhost:10001/log/config?level=debug
+   curl -X PUT http://localhost:10001/log/config -H "Content-Type:application/json" -d '{"level" : "debug"}'
 
 ```
 to change current log level. Currently supported levels are:
@@ -53,3 +53,10 @@ to change current log level. Currently supported levels are:
 - warn
 - error
 
+In order to get current log level, just send a GET request to the same endpoint:
+
+```bash
+
+   curl -X GET http://localhost:10001/log/config 
+
+```
