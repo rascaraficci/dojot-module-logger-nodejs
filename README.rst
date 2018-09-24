@@ -1,0 +1,44 @@
+dojot-module-logger
+===================
+
+This component is a simple logger, based on [winston](https://github.com/winstonjs/winston, that
+offers an endpoint to be added to an Express application.
+
+How to use
+**********
+
+It's simple. Just import it and use it: 
+
+.. code-block:: javascript
+
+   var dojotLogger = require("@dojot/dojot-module-logger-nodejs");
+   dojotLogger.logger.debug("This is an example");
+
+As the exported `logger` object is actually the winston logger with a single
+transport, you can change its current log level by calling:
+
+.. code-block:: javascript
+
+   dojotLogger.logger.transports[0].level = "info";
+
+
+You can add an endpoint to your component as well:
+
+.. code-block:: javascript
+
+   var bodyParser = require("body-parser");
+   var express = require("express");
+   var app = express();
+   app.use(bodyParser.json());
+   dojotLogger.addLoggerEndpoint(app, "none");
+   app.listen(10001, () => {
+       logger.info(`Listening on port 10001.`);
+   });
+
+Thus you can call:
+
+.. code-block:: bash
+
+   curl -X PUT http://localhost:10001/log/config?level=debug
+
+to change current log level.

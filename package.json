@@ -1,0 +1,32 @@
+{
+  "name": "@dojot/dojot-module-logger",
+  "version": "0.0.1-alpha.1",
+  "description": "A simple configurable logger for dojot modules",
+  "main": "build/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dojot/dojot-module-logger-nodejs.git"
+  },
+  "keywords": [
+    "logger",
+    "dojot",
+    "modules"
+  ],
+  "author": "Felipe Muhamed Avila, Giovanni Curiel dos Santos",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/dojot/dojot-module-logger-nodejs/issues"
+  },
+  "homepage": "https://github.com/dojot/dojot-module-logger-nodejs#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0"
+  }
+}
