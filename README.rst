@@ -1,7 +1,7 @@
 dojot-module-logger
 ===================
 
-This component is a simple logger, based on [winston](https://github.com/winstonjs/winston, that
+This component is a simple logger, based on `winston<https://github.com/winstonjs/winston>`_, that
 offers an endpoint to be added to an Express application.
 
 How to use
