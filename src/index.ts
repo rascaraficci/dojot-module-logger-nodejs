@@ -50,7 +50,7 @@ function formatParams(info: TransformableInfo) {
  * handler device-data at topic f968b47f-6db7-4434-9e9c-175feb42c68b.
  */
 
-const logger = winston.createLogger({
+const internalLogger = winston.createLogger({
     exitOnError: false,
     format: winston.format.combine(
         winston.format((info: TransformableInfo)  => {
@@ -69,12 +69,21 @@ const logger = winston.createLogger({
     ],
 });
 
-interface ILogger {
-    error: (data: string, config: any) => void;
-    warn: (data: string, config: any) => void;
-    info: (data: string, config: any) => void;
-    debug: (data: string, config: any) => void;
-}
+const logger = {
+    debug: (data: string, config: any) => { internalLogger.debug(data, config); },
+    error: (data: string, config: any) => { internalLogger.error(data, config); },
+    getLevel: () => internalLogger.transports[0].level,
+    info: (data: string, config: any) => { internalLogger.info(data, config); },
+    setLevel: (level: string) => {
+        if (debugLevels.indexOf(level) >= 0) {
+            internalLogger.transports[0].level = level;
+            return 0;
+        } else {
+            return -1;
+        }
+    },
+    warn: (data: string, config: any) => { internalLogger.warn(data, config); },
+};
 
 /**
  * Adds two endpoints related to logging configuration.
@@ -85,10 +94,9 @@ function getHTTPRouter(): express.Router {
     router.use(bodyparser.json());
     router.put("/log", (req: express.Request, res: express.Response) => {
         if (req.body.level !== undefined && req.body.level !== null) {
-            if (debugLevels.indexOf(req.body.level) >= 0) {
+            if (logger.setLevel(req.body.level) === 0) {
                 // Set log level
                 res.set(200).send("Level of debugger is set to " + req.body.level);
-                logger.transports[0].level = req.body.level;
             } else {
                 res.status(400).send("unknown level: " + req.body.level + ", valid are " + debugLevels);
             }
@@ -102,7 +110,7 @@ function getHTTPRouter(): express.Router {
         res.set(200).header({
             "Content-Type": "application/json",
         }).send(JSON.stringify({
-            level: logger.transports[0].level,
+            level: logger.getLevel(),
         }));
     });
 
@@ -110,7 +118,6 @@ function getHTTPRouter(): express.Router {
 }
 
 export {
-    ILogger,
     getHTTPRouter,
     logger,
 };
