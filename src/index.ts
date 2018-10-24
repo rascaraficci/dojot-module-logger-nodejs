@@ -1,5 +1,6 @@
 /*Dojot Logger Library*/
 
+import bodyparser from "body-parser";
 import * as express from "express";
 import { TransformableInfo } from "logform";
 import * as winston from "winston";
@@ -68,12 +69,21 @@ const logger = winston.createLogger({
     ],
 });
 
+interface ILogger {
+    error: (data: string, config: any) => void;
+    warn: (data: string, config: any) => void;
+    info: (data: string, config: any) => void;
+    debug: (data: string, config: any) => void;
+}
+
 /**
  * Adds two endpoints related to logging configuration.
  * @param app The express application
  */
-const addLoggerEndpoint = (app: express.Application) => {
-    app.put("/log/config", (req: express.Request, res: express.Response) => {
+function getHTTPRouter(): express.Router {
+    const router = express.Router();
+    router.use(bodyparser.json());
+    router.put("/log", (req: express.Request, res: express.Response) => {
         if (req.body.level !== undefined && req.body.level !== null) {
             if (debugLevels.indexOf(req.body.level) >= 0) {
                 // Set log level
@@ -88,16 +98,19 @@ const addLoggerEndpoint = (app: express.Application) => {
     });
 
     // tslint:disable-next-line:variable-name
-    app.get("/log/config", (_req: express.Request, res: express.Response) => {
+    router.get("/log", (_req: express.Request, res: express.Response) => {
         res.set(200).header({
             "Content-Type": "application/json",
         }).send(JSON.stringify({
             level: logger.transports[0].level,
         }));
     });
-};
 
-export = {
-    addLoggerEndpoint,
+    return router;
+}
+
+export {
+    ILogger,
+    getHTTPRouter,
     logger,
 };
