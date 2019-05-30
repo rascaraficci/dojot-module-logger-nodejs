@@ -1,6 +1,6 @@
 {
   "name": "@dojot/dojot-module-logger",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "description": "A simple configurable logger for dojot modules",
   "main": "build/index.js",
   "scripts": {
