@@ -18,6 +18,10 @@
     "modules"
   ],
   "author": "Felipe Muhamed Avila, Giovanni Curiel dos Santos",
+  "contributors": [
+    "Raul Negreiros",
+    "Rafael Augusto Scaraficci"
+  ],
   "license": "Apache-2.0",
   "licenses": [
     {
