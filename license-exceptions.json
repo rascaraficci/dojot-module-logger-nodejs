@@ -1,0 +1,7 @@
+{
+    "exceptions": {
+      "@sinonjs/text-encoding@0.7.1": {
+        "reason": "It allows to choose between UNLICENSE and Apache-2.0"
+      }
+    }
+  }
